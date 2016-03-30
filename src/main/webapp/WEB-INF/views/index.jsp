@@ -6,7 +6,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Upload Photo</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
 
 <body>
@@ -22,10 +22,18 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <form role="form" method="POST" action="/uploadimgctlr" enctype="multipart/form-data">
+                        <form role="form" method="POST" action="/upload" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label>File input</label>
                                 <input type="file" method="POST" accept=".jpg" name="file"/>
+                                <br>
+                                <label>Name </label>
+                                <br>
+                                <input type="text" placeholder="Name" required name="name"/>
+                                <br>
+                                <label>Title </label>
+                                <br>
+                                <input type="text" placeholder="Title" required name="title"/>
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Upload</button>
@@ -33,6 +41,15 @@
                         </form>
                     </div>
                 </div>
+
+                <c:if test="${ entity != null}">
+                <div class="row">
+                    <div class="col-md-3">
+                    <p><b>Name:</b> ${ entity.name}</p>
+                    <p><b>Title:</b> ${ entity.title}</p>
+                    </div>
+                </div>
+                </c:if>
 
                 <c:if test="${ (photo != null) && !(photo eq '')}">
                     <div class="row">
