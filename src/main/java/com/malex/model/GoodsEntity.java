@@ -17,6 +17,11 @@ public class GoodsEntity {
     @Column(name = "title")
     private String title;
 
+    // http://stackoverflow.com/questions/3677380/proper-hibernate-annotation-for-byte
+    @Lob
+    @Column(name = "data")
+    private byte[] data;
+
     public GoodsEntity() {
     }
 
@@ -42,5 +47,13 @@ public class GoodsEntity {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
     }
 }

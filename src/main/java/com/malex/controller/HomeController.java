@@ -2,13 +2,16 @@ package com.malex.controller;
 
 import com.malex.model.GoodsEntity;
 import com.malex.service.GoodsService;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
 
 @Controller
 @RequestMapping("/")
@@ -25,18 +28,30 @@ public class HomeController {
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public String getUpload(Model model,
                             @RequestParam("name") String name,
-                            @RequestParam("title") String title) {
+                            @RequestParam("title") String title,
+                            @RequestParam("file") CommonsMultipartFile file) {
 
-        System.err.println(name);
-        System.err.println(title);
 
         GoodsEntity entity = new GoodsEntity();
         entity.setName(name);
         entity.setTitle(title);
 
-        GoodsEntity goodsEntity = goodsService.save(entity);
+        if (file != null) {
+            System.out.println("Saving file: " + file.getOriginalFilename());
+            entity.setData(file.getBytes());
+        }
 
+        GoodsEntity goodsEntity = goodsService.save(entity);
         model.addAttribute("entity", goodsEntity);
+
+        // display image
+        StringBuilder sb = new StringBuilder();
+        sb.append("data:image/png;base64,");
+        sb.append(StringUtils.newStringUtf8(Base64.encodeBase64(goodsEntity.getData(), false)));
+        String contourChart = sb.toString();
+
+        model.addAttribute("photo", contourChart);
+
         return "index";
     }
 

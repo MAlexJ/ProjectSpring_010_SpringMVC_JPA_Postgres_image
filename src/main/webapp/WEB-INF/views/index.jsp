@@ -43,22 +43,21 @@
                 </div>
 
                 <c:if test="${ entity != null}">
-                <div class="row">
-                    <div class="col-md-3">
-                    <p><b>Name:</b> ${ entity.name}</p>
-                    <p><b>Title:</b> ${ entity.title}</p>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <p><b>Name:</b> ${ entity.name}</p>
+                            <p><b>Title:</b> ${ entity.title}</p>
+                        </div>
                     </div>
-                </div>
                 </c:if>
 
                 <c:if test="${ (photo != null) && !(photo eq '')}">
                     <div class="row">
                         <div class="col-md-12">
-                            <img src="/resources/img/${ photo }" class="col-md-12"/>
+                            <img src="${ photo }" class="col-md-12"/>
                         </div>
                     </div>
                 </c:if>
-
             </div>
         </div>
     </div>
