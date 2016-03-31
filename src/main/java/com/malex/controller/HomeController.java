@@ -1,9 +1,7 @@
 package com.malex.controller;
 
-import com.malex.model.GoodsEntity;
+import com.malex.model.dto.GoodsDTO;
 import com.malex.service.GoodsService;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.binary.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+import java.util.List;
 
 
 @Controller
@@ -21,7 +21,9 @@ public class HomeController {
     private GoodsService goodsService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String getIndex() {
+    public String getIndex(Model model) {
+        List<GoodsDTO> allDTO = goodsService.findAllDTO();
+        model.addAttribute("listDTO", allDTO);
         return "index";
     }
 
@@ -31,27 +33,21 @@ public class HomeController {
                             @RequestParam("title") String title,
                             @RequestParam("file") CommonsMultipartFile file) {
 
+        GoodsDTO entityDTO = new GoodsDTO();
+        entityDTO.setName(name);
+        entityDTO.setTitle(title);
+        entityDTO.setDataCMF(file);
 
-        GoodsEntity entity = new GoodsEntity();
-        entity.setName(name);
-        entity.setTitle(title);
+        GoodsDTO goodsDTO = goodsService.saveDTO(entityDTO);
 
-        if (file != null) {
-            entity.setData(file.getBytes());
+        model.addAttribute("entity", goodsDTO);
+
+        if (goodsDTO.isFile()) {
+            model.addAttribute("photo", goodsDTO.getDataToSrt());
         }
 
-        GoodsEntity goodsEntity = goodsService.save(entity);
-        model.addAttribute("entity", goodsEntity);
+        model.addAttribute("listDTO", goodsService.findAllDTO());
 
-        // display image
-        if (goodsEntity.getData() != null && goodsEntity.getData().length > 0) {
-            System.out.println("length ----------  " + goodsEntity.getData().length);
-            StringBuilder sb = new StringBuilder();
-            sb.append("data:image/png;base64,");
-            sb.append(StringUtils.newStringUtf8(Base64.encodeBase64(goodsEntity.getData(), false)));
-            String contourChart = sb.toString();
-            model.addAttribute("photo", contourChart);
-        }
         return "index";
     }
 

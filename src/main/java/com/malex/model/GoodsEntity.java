@@ -1,10 +1,11 @@
 package com.malex.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "goods")
-public class GoodsEntity {
+public class GoodsEntity implements Serializable {
 
     @Id
     @SequenceGenerator(name = "app_sequence", sequenceName = "app_sequence", allocationSize = 1)

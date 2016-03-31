@@ -1,5 +1,7 @@
 package com.malex.configuration;
 
+import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -31,4 +33,10 @@ public class AppConfig {
         resolver.setMaxInMemorySize(1048576);  // 1MB
         return resolver;
     }
+
+    @Bean
+    public Mapper beanMapper() {
+        return new DozerBeanMapper();
+    }
+
 }
