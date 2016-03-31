@@ -37,7 +37,6 @@ public class HomeController {
         entity.setTitle(title);
 
         if (file != null) {
-            System.out.println("Saving file: " + file.getOriginalFilename());
             entity.setData(file.getBytes());
         }
 
@@ -45,13 +44,14 @@ public class HomeController {
         model.addAttribute("entity", goodsEntity);
 
         // display image
-        StringBuilder sb = new StringBuilder();
-        sb.append("data:image/png;base64,");
-        sb.append(StringUtils.newStringUtf8(Base64.encodeBase64(goodsEntity.getData(), false)));
-        String contourChart = sb.toString();
-
-        model.addAttribute("photo", contourChart);
-
+        if (goodsEntity.getData() != null && goodsEntity.getData().length > 0) {
+            System.out.println("length ----------  " + goodsEntity.getData().length);
+            StringBuilder sb = new StringBuilder();
+            sb.append("data:image/png;base64,");
+            sb.append(StringUtils.newStringUtf8(Base64.encodeBase64(goodsEntity.getData(), false)));
+            String contourChart = sb.toString();
+            model.addAttribute("photo", contourChart);
+        }
         return "index";
     }
 
