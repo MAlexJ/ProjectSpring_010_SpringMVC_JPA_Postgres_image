@@ -63,6 +63,24 @@ section {
     width: 100%;
 }
 
+#benefits {
+    background: #eee none repeat scroll 0 0;
+    padding: 30px 0;
+}
+
+.masthead {
+    background: #2ba3d4 url("http://fedora.or.id/bg_teaser.svg") no-repeat scroll center center;
+    height: 500px;
+}
+
+.header-wrapper {
+    text-align: center;
+}
 
 
+.strap-footer {
+    background: rgba(0, 0, 0, 0) linear-gradient(50deg, hsl(106, 34%, 56%), #47b8e5) repeat scroll 0 0;
+    float: left;
+    width: 100%;
+}
 

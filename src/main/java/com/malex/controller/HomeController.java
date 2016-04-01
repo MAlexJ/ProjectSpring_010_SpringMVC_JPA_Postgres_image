@@ -27,6 +27,16 @@ public class HomeController {
         return "index";
     }
 
+    @RequestMapping(value = "/article", method = RequestMethod.GET)
+    public String getArticle(Model model) {
+        return "article";
+    }
+
+    @RequestMapping(value = "/about", method = RequestMethod.GET)
+    public String getAbout() {
+        return "about";
+    }
+
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public String getUpload(Model model,
                             @RequestParam("name") String name,
@@ -48,7 +58,10 @@ public class HomeController {
 
         model.addAttribute("listDTO", goodsService.findAllDTO());
 
-        return "index";
+        return "about";
     }
+
+
+
 
 }
